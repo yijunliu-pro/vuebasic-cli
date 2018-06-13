@@ -6,6 +6,11 @@
         <div class="dialog-content" v-if="isShow">
           <p class="dialog-close" @click="closeDialog">x</p>
           <slot>若无内容则显示该内容区</slot>
+          <slot name="aboutus">默认内容，父组件对应的aboutus内容来替代。如父组件无改模块则显示此处的默认内容</slot>
+          <ul>
+            <slot name="item" v-for="item in items" :text="item.text"></slot>
+          </ul>
+          
         </div>
       </transition>
     </div>
@@ -15,10 +20,16 @@
 <script>
 export default {
   props:{
+
+    items:{
+      type: Array,
+      default: []
+    },
     isShow:{
       type:Boolean,
       default:false
     }
+
   },
   data () {
     return {msg: '2016'}

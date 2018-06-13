@@ -2,15 +2,21 @@
  <div class="slide-show" @mouseover="clearPlay" @mouseout="autoPlay">
   
    <div class="slide-img">
-      <a :href="slideList[nowIndex].href">
+     <!--<router-link :to="slideList[nowIndex].href">
+      <transition name="slide-trans">
+             <img v-if="isShow" :src="slideList[nowIndex].src">
+          </transition>
+          <transition name="slide-trans-old">
+            <img v-if="!isShow" :src="slideList[nowIndex].src">
+          </transition>
+     </router-link>-->
+      <a :href="slideList[nowIndex].href" target="_blank">
           <transition name="slide-trans">
              <img v-if="isShow" :src="slideList[nowIndex].src">
           </transition>
           <transition name="slide-trans-old">
             <img v-if="!isShow" :src="slideList[nowIndex].src">
           </transition>
-
-          
       </a>
     </div>
     
@@ -18,7 +24,8 @@
     <ul class="slide-pages">
       <li @click="slide(prevIndex)">&lt;</li>
       <li v-for="(item,index) in slideList">
-        <a :class="{current:nowIndex === index}" @click="slide(index)">{{index+1}}</a>
+        <!--<router-link :class="{current:nowIndex === index}" @click="slide(index)">{{index+1}}</router-link>-->
+        <span  :class="{current:nowIndex === index}" @click="slide(index)">{{index+1}}</span>
       </li>
       <li @click="slide(nextIndex)">&gt;</li>
     </ul>

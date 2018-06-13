@@ -18,26 +18,41 @@
         </div>  
       </div>
     </div>
-
-    <div class="app-content">
+    <div class="app-content layout">
       
       <!--路由S-->
       <div class="router-tab">
         <!-- 使用 router-link 组件来导航. -->
         <!-- 通过传入 `to` 属性指定链接. -->
         <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
-        <router-link :to="{path:'router1'}">go to 路由1</router-link>
-        <router-link :to="{path:'router2'}">go to 路由2</router-link>
+        <router-link to="/router1">go to 路由1</router-link>
+        <router-link to="/router2">go to 路由2</router-link>
       </div>
       <div class="router-cont">
         <!-- 路由出口 -->
         <!-- 路由匹配到的组件将渲染在这里 -->
-        <router-view></router-view>
+        <transition name="fade">
+          <keep-alive>
+            <router-view></router-view>
+          </keep-alive>
+        </transition>
+        
       </div>
-      
       <!--路由E-->
 
-
+      <!--命名视图路由S-->
+      <ul>
+            <li>
+                <router-link to="/">/</router-link>
+            </li>
+            <li>
+                <router-link to="/other">/other</router-link>
+            </li>
+        </ul>
+        <router-view class="view one" ></router-view>
+        <router-view class="view two" name="a"></router-view>
+        <router-view class="view three" name="b"></router-view>
+        <!--命名视图路由E-->
 
       <!--幻灯片组件S-->
       <slide-show :slideList="slideList" :speed="slideSpeed"></slide-show> 
@@ -47,6 +62,10 @@
       <!--视频组件S-->
       <video-com></video-com>
       <!--视频组件E-->
+
+      <!--左右滚动组件S-->
+      <my-scroll :scrollList="scrollList"></my-scroll>
+      <!--左右滚动组件E-->
 
 
       <!--页面元素的过渡切换S-->
@@ -90,14 +109,26 @@
     <my-footer></my-footer>
     
     <!--弹出层组件-->
+    
     <!--登录S-->
-    <log-dialog :isShow="isLogDialogShow" @on-close="closeDailog('isLogDialogShow')">
+    <log-dialog  :items="items" :isShow="isLogDialogShow" @on-close="closeDailog('isLogDialogShow')">
       <my-login @has-login="succsessLog"></my-login>
     </log-dialog>
     <!--登录E-->
+
     <!--关于我们S-->
-    <log-dialog :isShow="isAboutDialogShow" @on-close="closeDailog('isAboutDialogShow')">
-      <p>关于我们关于我们关于<br/>我们关于我们关于我们<br/><br/></p>
+    <log-dialog :isShow="isAboutDialogShow" :items="items" @on-close="closeDailog('isAboutDialogShow')">
+      <p>父组件的内容，子组件必须要有slot插槽，去替换slot插槽的内功，不然该部分不会显示</p>
+      <!-- 具名slot -->
+      <p slot="aboutus">关于我们的内容，</p>
+
+      <!--作用域插槽-->
+      <template slot="item" slot-scope="props">
+        <li>{{ props.text }}</li>
+      </template>
+         
+     
+     
     </log-dialog>
     <!--关于我们-->
   </div>
@@ -112,9 +143,21 @@ import videoCom from './components/video'
 import myFooter from './components/footer'
 import logDialog from './components/logDialog'
 import myLogin from './components/login'
+import myScroll from './components/scroll'
+
 
 export default {
   name: 'app',
+  components: {
+    comA,
+    comB,
+    slideShow,
+    videoCom,
+    myFooter,
+    logDialog,
+    myLogin,
+    myScroll
+  },
   data () {
     return {
       msg: '',
@@ -125,7 +168,17 @@ export default {
       isLogDialogShow:false,
       isAboutDialogShow:false,
       username: '',
-      
+      items:[
+        {
+          text:"列表111"
+        },
+        {
+          text:"列表222"
+        },
+        {
+          text:"列表3333"
+        }
+      ],
       slideList:[
         {
           src: require('./assets/slideShow/pic1.jpg'),
@@ -145,6 +198,38 @@ export default {
         {
           src: require('./assets/slideShow/pic4.jpg'),
           title: '标题4444444444444',
+          href: 'http://ent.qq.com'
+        }
+      ],
+      scrollList:[
+        {
+          src: require('./assets/slideShow/pic1.jpg'),
+          title: '标题111111111',
+          href: 'http://www.qq.com'
+        },
+        {
+          src: require('./assets/slideShow/pic2.jpg'),
+          title: '标题222222222222',
+          href: 'http://v.qq.com'
+        },
+        {
+          src: require('./assets/slideShow/pic3.jpg'),
+          title: '标题333333333',
+          href: 'http://fashion.qq.com'
+        },
+        {
+          src: require('./assets/slideShow/pic4.jpg'),
+          title: '标题4444444444444',
+          href: 'http://ent.qq.com'
+        },
+        {
+          src: require('./assets/slideShow/pic2.jpg'),
+          title: '标题55555',
+          href: 'http://fashion.qq.com'
+        },
+        {
+          src: require('./assets/slideShow/pic4.jpg'),
+          title: '标题66666',
           href: 'http://ent.qq.com'
         }
       ]
@@ -186,21 +271,13 @@ export default {
 
 
 
-  },
-  components: {
-    comA,
-    comB,
-    slideShow,
-    videoCom,
-    myFooter,
-    logDialog,
-    myLogin
   }
+  
 }
 
 </script>
 
-<style>
+<style scoped>
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -285,6 +362,9 @@ body {
 .nav-pile {
   padding: 0 10px;
 }
+.layout{width: 1000px;margin: 0 auto;}
+
+
 .app-foot {
   text-align: center;
   height: 80px;

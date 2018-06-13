@@ -24,20 +24,45 @@ import router2 from './components/router/router2'
 // 2. Create the router instance and pass the `routes` option
 // You can pass in additional options here, but let's
 // keep it simple for now.
+
+
+
+const Foo = { template: '<div>foo</div>' }
+const Bar = { template: '<div>bar</div>' }
+const Baz = { template: '<div>baz</div>' }
 const router = new VueRouter({ //创建路由实例
     mode: 'history',
     routes: [ //定义路由Define some routes
         {
-            path: '/router1/:color',
+            path: '/router1',
             component: router1
         },
         {
             path: '/router2',
             component: router2
+        },
+        
+        {
+            path: '/',
+            // a single route can define multiple named components
+            // which will be rendered into <router-view>s with corresponding names.
+            components: {
+                default: Foo,
+                a: Bar,
+                b: Baz
+            }
+        },
+        {
+            path: '/other',
+            components: {
+                default: Baz,
+                a: Bar,
+                b: Foo
+            }
         }
+
     ]
 })
-
 
 
 new Vue({
