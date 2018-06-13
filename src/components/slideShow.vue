@@ -23,7 +23,7 @@
     <h2>{{slideList[nowIndex].title}}</h2>
     <ul class="slide-pages">
       <li @click="slide(prevIndex)">&lt;</li>
-      <li v-for="(item,index) in slideList">
+      <li v-for="(item,index) in slideList" :key="index">
         <!--<router-link :class="{current:nowIndex === index}" @click="slide(index)">{{index+1}}</router-link>-->
         <span  :class="{current:nowIndex === index}" @click="slide(index)">{{index+1}}</span>
       </li>

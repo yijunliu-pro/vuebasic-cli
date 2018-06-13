@@ -6,7 +6,7 @@
       <div class="mod_player" id="mod_player2"></div>
       <div class="playlist" id="playlist">
         <ul>
-          <li v-for="(item,index) in videoDataList" :vid="item.vid" @click="gotoNextVideo(item,index)" :class="{current:index===videoIndex}">
+          <li v-for="(item,index) in videoDataList" :vid="item.vid" @click="gotoNextVideo(item,index)" :class="{current:index===videoIndex}" :key="index">
             <a href="javascript:;" class="mod_poster">
               <img :src="item.pic496x280" :alt="item.title">
               <span class="video_tit">{{item.title}}</span>

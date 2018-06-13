@@ -3,14 +3,14 @@
 <div class="scrollbox">
   <div class="scrollitem">
     <ul>
-      <li v-for="(item,index) in scrollList">
+      <li v-for="(item,index) in scrollList" :key="index">
         <a :href="item.href" target="_blank">
             <img :src="item.src" />{{item.title}}
         </a>
       </li> 
     </ul> 
   </div>
-  <span class="btn prev"><</span>
+  <span class="btn prev">左</span>
   <span class="btn next">></span>
 </div> 
 
